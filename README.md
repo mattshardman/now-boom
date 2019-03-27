@@ -2,6 +2,8 @@
 
 Node.js cli to mimic Zeit's serverless enviroment locally.
 
+(https://zeit.co/docs/v2/getting-started/introduction-to-now/)
+
 **Installation**
 
 Install:
@@ -48,13 +50,13 @@ This will return a list of endpoints.
 
 Each endpoint is flagged to identify whether it returns a function.
 
-**Env variables:**
+**Environment variables:**
 
 ```now-boom``` checks to see if the project has a ```now.json``` file.
 
 If ```now.json``` does not exist a warning will be displayed.
 
-To add env variables to your project simply add them to the ```now.json``` file as per zeit documentation.
+To add env variables to your project simply add them to the ```now.json``` file as per zeit documentation (https://zeit.co/docs/v2/deployments/environment-variables-and-secrets/). 
 
 ```now.boom``` will add each env variable listed in ```now.json``` to ```process.env```
 
