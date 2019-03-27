@@ -4,13 +4,13 @@ const chalk = require("chalk");
 const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
-const argv = require("yargs").alias("p", "port").argv;
+const argv = require("yargs").alias({ p: "port", m: "map" }).argv;
 
 const api = "./api/";
 
 const init = () => {
 	const app = express();
-    
+
 	app.use(cors());
 
 	const routes = fs.readdirSync(api).reduce((acc, file) => {
@@ -57,12 +57,12 @@ const init = () => {
 	if (argv.map) {
 		routes.forEach(route => {
 			if (typeof route.routeFunction === "function") {
-                console.log( //eslint-disable-line
+				console.log( //eslint-disable-line
 					chalk.bgBlueBright("WORKING"),
 					chalk.blue(`---> http://localhost:${PORT}/api/${route.routeName}`)
 				);
 			} else {
-                console.log( //eslint-disable-line
+				console.log( //eslint-disable-line
 					chalk.bgRedBright("FAILING"),
 					chalk.red(`---> http://localhost:${PORT}/api/${route.routeName}`),
 					chalk.red("---> route does not return a function")
