@@ -4,15 +4,23 @@ const chalk = require("chalk");
 const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
+const dotEnv = require("dotenv");
 const argv = require("yargs").alias({ p: "port", m: "map" }).argv;
 
 const api = "./api/";
 const nowJson = "./now.json";
 
+dotEnv.config();
+
 const init = (nowJson) => {
 	const app = express();
 
 	app.use(cors());
+    
+	if (nowJson) {
+		const { env } = require(process.cwd() + "/now.json");
+		Object.entries(env).forEach(([key, value]) => process.env[key] = value);
+	}
 
 	const routes = fs.readdirSync(api).reduce((acc, file) => {
 		const importedFile = require(process.cwd() + `/api/${file}`);
