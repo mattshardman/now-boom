@@ -1,40 +1,39 @@
 #!/usr/bin/env node
 
-const inquirer = require("inquirer");
 const chalk = require("chalk");
-const figlet = require("figlet");
-const shell = require("shelljs");
 const fs = require("fs");
 const express = require("express");
-const path = require("path");
+const argv = require("yargs").alias("p", "port").argv;
 
 const api = "./api/";
 
 const init = () => {
-  const app = express();
+	const app = express();
 
-  const routes = fs.readdirSync(api).map(file => {
-    const importedFile = require(process.cwd() + `/api/${file}`);
-    return {
-      routeName: file,
-      routeFunction: importedFile
-    };
-  });
+	const routes = fs.readdirSync(api).map(file => {
+		const importedFile = require(process.cwd() + `/api/${file}`);
+		return {
+			routeName: file,
+			routeFunction: importedFile
+		};
+	});
 
-  routes.forEach(({ routeName, routeFunction }) => {
-    app.post(`/api/${routeName}`, routeFunction);
-  });
+	routes.forEach(({ routeName, routeFunction }) => {
+		app.post(`/api/${routeName}`, routeFunction);
+	});
 
-  app.listen(8000, () =>
-    console.log(
-      chalk.red("BOOM!!"),
-      chalk.green("Serverless dev environment running on port 8000")
-    )
-  );
+
+	const PORT = argv.port || 8000;
+	app.listen(PORT, () =>
+		console.log( //eslint-disable-line
+			chalk.bgBlueBright("BOOM!!"),
+			chalk.green(`\nServerless dev environment running on port ${PORT}`)
+		)
+	);
 };
 
-const run = async () => {
-  init();
+const run = () => {
+	init();
 };
 
 run();
