@@ -10,18 +10,30 @@ const api = "./api/";
 const init = () => {
 	const app = express();
 
-	const routes = fs.readdirSync(api).map(file => {
+	const routes = fs.readdirSync(api).reduce((acc, file) => {
 		const importedFile = require(process.cwd() + `/api/${file}`);
-		return {
+
+		fs.readdirSync(`./api/${file}`).forEach(innerFile => {
+			if (!innerFile.includes(".js")) {
+				const importedFileInner = require(process.cwd() + `/api/${file}/${innerFile}`);
+				acc.push({
+					routeName: `${file}/${innerFile}`,
+					routeFunction: importedFileInner
+				});
+			}
+		});
+
+		acc.push({
 			routeName: file,
 			routeFunction: importedFile
-		};
-	});
+		});
+        
+		return acc;
+	}, []);
 
 	routes.forEach(({ routeName, routeFunction }) => {
 		app.post(`/api/${routeName}`, routeFunction);
 	});
-
 
 	const PORT = argv.port || 8000;
 	app.listen(PORT, () =>
