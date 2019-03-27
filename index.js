@@ -27,7 +27,8 @@ const init = () => {
 	app.listen(PORT, () =>
 		console.log( //eslint-disable-line
 			chalk.bgBlueBright("BOOM!!"),
-			chalk.green(`\nServerless dev environment running on port ${PORT}`)
+			chalk.green(`\nServerless dev environment running on port ${PORT}`),
+			chalk.green(!argv.port && "\nUse --port or -p to run on a different port")
 		)
 	);
 };
