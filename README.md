@@ -15,7 +15,9 @@ This creates a server listening on ```port 8000```.
 To use a different port use ```boom -p <port-number>```
 
 Implimentation:
-```now-boom``` requires a folder called api, with subfolders for each API endpoint containing an index.js file.
+```now-boom``` requires a folder called api.
+Each subfolder will create an API endpoint.
+Each subfolder must contain an index.js file.
 e.g.
 
 ```
