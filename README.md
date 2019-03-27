@@ -22,7 +22,8 @@ To use a different port use ```boom --port <port-number>``` or ```boom -p <port-
 Each subfolder will create an API endpoint.
 
 The subfolder must contain an index.js file.
-e.g.
+
+E.g.
 
 ```
 |-- api
@@ -32,7 +33,7 @@ e.g.
             |-- index.js
  ```
  
- maps to:
+ Maps to:
  ```
   http://localhost:8000/api/send
   http://localhost:8000/api/add
