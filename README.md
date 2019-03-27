@@ -15,7 +15,8 @@ This creates a server listening on ```port 8000```.
 
 To use a different port use ```boom -p <port-number>```
 
-Implimentation:
+**Implimentation:**
+
 ```now-boom``` requires a folder called api.
 
 Each subfolder will create an API endpoint.
