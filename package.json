@@ -1,6 +1,6 @@
 {
   "name": "now-boom",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "yargs": "^13.2.2"
   },
