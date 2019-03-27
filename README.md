@@ -20,10 +20,10 @@ e.g.
 
 ```
 |-- api
-   |-- send
-| +-- | +--index.js
-| +-- add
-| +-- | +-- index.js
+      |-- send
+            | index.js
+      |-- add
+            |-- index.js
  ```
  
  maps to:
@@ -31,5 +31,3 @@ e.g.
   http://localhost:8000/api/send
   http://localhost:8000/api/add
  ```
- 
- 
