@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const chalk = require("chalk");
 const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
@@ -10,94 +9,55 @@ const argv = require("yargs").alias({ p: "port", m: "map" }).argv;
 const api = "./api/";
 const nowJson = "./now.json";
 
+const logs = require("./utils/logs");
+const env = require("./utils/env");
+const { logRoutes, createRoutes, createRoutesArray } = require("./utils/routes");
+
 dotEnv.config();
 
 const init = (nowJson) => {
+	// initiate express
 	const app = express();
-
 	app.use(cors());
-    
+
+	// set port to 8000 unless -p or --port flags are provided
+	const PORT = argv.port || 8000;
+	
+	// if now.json file exists add each environment variable to process.env
 	if (nowJson) {
-		const { env } = require(process.cwd() + "/now.json");
-		Object.entries(env).forEach(([key, value]) => process.env[key] = value);
+		env.mapEnvsToProcessEnv();
 	}
 
-	const routes = fs.readdirSync(api).reduce((acc, file) => {
-		const importedFile = require(process.cwd() + `/api/${file}`);
+	// map each function exported from api folder system to an endpoint then create post method for each endpoint
+	const routes = createRoutesArray(api);
+	createRoutes(routes, app);
 
-		fs.readdirSync(`./api/${file}`).forEach(innerFile => {
-			if (!innerFile.includes(".js")) {
-				const importedFileInner = require(process.cwd() +
-					`/api/${file}/${innerFile}`);
-				acc.push({
-					routeName: `${file}/${innerFile}`,
-					routeFunction: importedFileInner
-				});
-			}
-		});
+	// start server
+	app.listen(PORT, () => logs.logListening(PORT, argv));
 
-		acc.push({
-			routeName: file,
-			routeFunction: importedFile
-		});
-
-		return acc;
-	}, []);
-
-	routes.forEach(({ routeName, routeFunction }) => {
-		if (typeof routeFunction === "function") {
-			app.post(`/api/${routeName}`, routeFunction);
-		}
-	});
-
-	const PORT = argv.port || 8000;
-
-	app.listen(PORT, () =>
-		console.log( //eslint-disable-line
-			"🦄",
-			chalk.bgBlueBright("BOOM!!"),
-			chalk.green(`\nServerless dev environment running on port ${PORT}`),
-			chalk.green(
-				argv.port ? "" : "\nUse --port or -p to run on a different port"
-			)
-		)
-	);
-
+	// if -m or --map flag provided log all routes
 	if (argv.map) {
-		routes.forEach(route => {
-			if (typeof route.routeFunction === "function") {
-				console.log( //eslint-disable-line
-					chalk.bgBlueBright("WORKING"),
-					chalk.blue(`---> http://localhost:${PORT}/api/${route.routeName}`)
-				);
-			} else {
-				console.log( //eslint-disable-line
-					chalk.bgRedBright("FAILING"),
-					chalk.red(`---> http://localhost:${PORT}/api/${route.routeName}`),
-					chalk.red("---> route does not return a function")
-				);
-			}
-		});
+		logRoutes(routes, PORT);
 	}
 };
 
 const run = () => {
+	// check is api folder exists
 	if (fs.existsSync(api)) { 
+		// check if now.json exists
 		if (fs.existsSync(nowJson)) { 
+			// if now.json exists call init with path to now.json
 			return init(nowJson);
 		}     
-        console.log( //eslint-disable-line
-			chalk.bgYellow("WARNING"),
-			chalk.yellow("now.json file does not exist"),
-			" \n"
-		);    
+
+		// if now.json does not exist log warning
+		logs.logNowWarning();  
+		// call init without path
 		return init();
 	}
-    
-	return console.log( //eslint-disable-line
-		chalk.bgRedBright("ERROR"),
-		chalk.red("Directory must contain a folder named 'api'")
-	);
+	
+	// if api folder does not exist log error
+	return logs.logApiError();
 };
 
 run();
