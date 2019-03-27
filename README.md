@@ -19,9 +19,8 @@ Implimentation:
 e.g.
 
 ```
-.
-+-- api
-| +-- send
+|-- api
+   |-- send
 | +-- | +--index.js
 | +-- add
 | +-- | +-- index.js
