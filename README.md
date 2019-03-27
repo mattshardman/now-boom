@@ -2,6 +2,8 @@
 
 Node.js cli to mimic Zeit's serverless enviroment locally.
 
+**Installation**
+
 Install:
 ```npm i now-boom```
 
