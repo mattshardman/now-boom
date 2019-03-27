@@ -7,8 +7,9 @@ const cors = require("cors");
 const argv = require("yargs").alias({ p: "port", m: "map" }).argv;
 
 const api = "./api/";
+const nowJson = "./now.json";
 
-const init = () => {
+const init = (nowJson) => {
 	const app = express();
 
 	app.use(cors());
@@ -73,7 +74,22 @@ const init = () => {
 };
 
 const run = () => {
-	init();
+	if (fs.existsSync(api)) { 
+		if (fs.existsSync(nowJson)) { 
+			return init(nowJson);
+		}     
+        console.log( //eslint-disable-line
+			chalk.bgYellow("WARNING"),
+			chalk.yellow("now.json file does not exist"),
+			" \n"
+		);    
+		return init();
+	}
+    
+	return console.log( //eslint-disable-line
+		chalk.bgRedBright("ERROR"),
+		chalk.red("Directory must contain a folder named 'api'")
+	);
 };
 
 run();
