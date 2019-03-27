@@ -1,6 +1,6 @@
 # now-boom
 
-Node.js cli to mimic Zeit's serverless enviroment locally.
+Cli to mimic Zeit's serverless enviroment locally (for node apis).
 
 (https://zeit.co/docs/v2/getting-started/introduction-to-now/)
 
