@@ -18,11 +18,12 @@ Implimentation:
 ```now-boom``` requires a folder called api, with subfolders for each API endpoint containing an index.js file.
 e.g.
 
-```api
-    --> send
-      --> index.js
-    --> add
-      --> index.js
+.
++-- api
+| +-- send
+| +-- | +--index.js
+| +-- add
+| +-- | +-- index.js
  ```
  
  maps to:
