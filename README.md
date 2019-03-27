@@ -44,5 +44,6 @@ E.g.
 
 To view end points run ```boom -map``` or ```boom -m```
 
-This will return a list of each endpoint.
+This will return a list of endpoints.
+
 Each endpoint is flagged to identify whether it returns a function.
