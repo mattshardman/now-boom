@@ -1,3 +1,4 @@
+const path = require("path");
 const fs = require("fs");
 const logs = require("./logs");
 
@@ -13,32 +14,39 @@ const logRoutes = (routes, PORT) =>
 const createRoutes = (routes, app) => 
 	routes.forEach(({ routeName, routeFunction }) => {
 		if (typeof routeFunction === "function") {
-			app.post(`/api/${routeName}`, routeFunction);
+			app.get(`${routeName}`, routeFunction);
+			app.post(`${routeName}`, routeFunction);
+			app.put(`${routeName}`, routeFunction);
+			app.delete(`${routeName}`, routeFunction);
+			app.patch(`${routeName}`, routeFunction);
 		}
 	});
 
 
-function createRoutesArray(api) {
-	fs.readdirSync(api).reduce((acc, file) => {
-		const importedFile = require(process.cwd() + `/api/${file}`);
+function createRoutesArray(initialFolder) {
+	let routes = [];
 
-		fs.readdirSync(`./api/${file}`).forEach(innerFile => {
-			if (!innerFile.includes(".js")) {
-				const importedFileInner = require(process.cwd() +
-					`/api/${file}/${innerFile}`);
-				acc.push({
-					routeName: `${file}/${innerFile}`,
-					routeFunction: importedFileInner
-				});
-			}
-		});
+	const readFiles = folder => fs.readdirSync(folder).forEach(file => {
+		const pathTo = `${folder}/${file}`;
 
-		acc.push({
-			routeName: file,
-			routeFunction: importedFile
-		});
+		if (path.extname(file) === ".js") {
+			return;
+		}
 
-		return acc;
-	}, []);
+		readFiles(pathTo);
+
+		if (!file.includes(".js")) {
+			const importPath = pathTo.slice(1);
+			const importedFile = require(process.cwd() + importPath);
+			return routes.push({
+				routeName: importPath,
+				routeFunction: importedFile
+			});
+		}
+	});
+
+	readFiles(initialFolder);
+
+	return routes;
 }
 module.exports = { logRoutes, createRoutes, createRoutesArray };

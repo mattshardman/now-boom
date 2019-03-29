@@ -6,7 +6,7 @@ const cors = require("cors");
 const dotEnv = require("dotenv");
 const argv = require("yargs").alias({ p: "port", m: "map" }).argv;
 
-const api = "./api/";
+const api = "./api";
 const nowJson = "./now.json";
 
 const logs = require("./utils/logs");

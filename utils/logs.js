@@ -14,14 +14,14 @@ const logListening = (PORT, argv) => {
 const logRouteWorking = (PORT, route) => {
     console.log( //eslint-disable-line
 		chalk.bgBlueBright("WORKING"),
-		chalk.blue(`---> http://localhost:${PORT}/api/${route.routeName}`)
+		chalk.blue(`---> http://localhost:${PORT}${route.routeName}`)
 	);
 };
 
 const logRouteNotWorking = (PORT, route) => {
     console.error( //eslint-disable-line
 		chalk.bgRedBright("FAILING"),
-		chalk.red(`---> http://localhost:${PORT}/api/${route.routeName}`),
+		chalk.red(`---> http://localhost:${PORT}${route.routeName}`),
 		chalk.red("---> route does not return a function")
 	);
 };
