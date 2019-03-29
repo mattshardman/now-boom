@@ -1,16 +1,16 @@
 # now-boom
 
-Cli to mimic Zeit's serverless enviroment locally (for node apis).
+Cli to mimic Zeit's serverless environment locally (for node apis).
 
 (https://zeit.co/docs/v2/getting-started/introduction-to-now/)
 
 **Installation**
 
 Install:
-```npm i now-boom```
+```npm i now-boom --save-dev```
 
 or:
-```yarn add now-boom```
+```yarn add -D now-boom```
 
 To run:
 ```boom```
@@ -19,20 +19,20 @@ This creates a server listening on ```port 8000```.
 
 To use a different port use ```boom --port <port-number>``` or ```boom -p <port-number>```
 
-**Implimentation:**
+**Implementation:**
 
 ```now-boom``` requires a folder called api.
 
-Each subfolder will create an API endpoint.
+Each sub-folder will create an API endpoint.
 
-The subfolder must contain an index.js file.
+The sub-folder must contain an index.js file.
 
 E.g.
 
 ```
 |-- api
       |-- send
-            | index.js
+            |-- index.js
       |-- add
             |-- index.js
  ```
@@ -42,6 +42,23 @@ E.g.
   http://localhost:8000/api/send
   http://localhost:8000/api/add
  ```
+
+Nested folders will also create endpoints.
+
+E.g.
+
+```
+|-- api
+      |-- send
+            |-- inner-send
+                  |-- index.js
+```
+
+Maps to;
+```
+  http://localhost:8000/api/send/inner-send
+```
+
 **Viewing endpoints:**
 
 To view end points run ```boom -map``` or ```boom -m```
