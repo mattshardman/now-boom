@@ -59,6 +59,14 @@ Maps to;
   http://localhost:8000/api/send/inner-send
 ```
 
+**Methods**
+
+Each endpoint can be accessed with:
+
+```GET POST PUT DELETE & PATCH```
+
+methods.
+
 **Viewing endpoints:**
 
 To view end points run ```boom -map``` or ```boom -m```
