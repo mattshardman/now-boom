@@ -19,7 +19,7 @@ const logRouteWorking = (PORT, route) => {
 };
 
 const logRouteNotWorking = (PORT, route) => {
-    console.log( //eslint-disable-line
+    console.error( //eslint-disable-line
 		chalk.bgRedBright("FAILING"),
 		chalk.red(`---> http://localhost:${PORT}/api/${route.routeName}`),
 		chalk.red("---> route does not return a function")
@@ -35,7 +35,7 @@ const logNowWarning = () => {
 };
 
 const logApiError = () => {
-    console.log( //eslint-disable-line
+    console.error( //eslint-disable-line
 		chalk.bgRedBright("ERROR"),
 		chalk.red("Directory must contain a folder named 'api'")
 	);

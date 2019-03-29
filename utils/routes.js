@@ -1,7 +1,7 @@
 const fs = require("fs");
 const logs = require("./logs");
 
-const logRoutes = (routes, PORT) => {
+const logRoutes = (routes, PORT) => 
 	routes.forEach(route => {
 		if (typeof route.routeFunction === "function") {
 			logs.logRouteWorking(PORT, route);
@@ -9,17 +9,16 @@ const logRoutes = (routes, PORT) => {
 			logs.logRouteNotWorking(PORT, route);
 		}
 	});
-};
 
-const createRoutes = (routes, app) => {
+const createRoutes = (routes, app) => 
 	routes.forEach(({ routeName, routeFunction }) => {
 		if (typeof routeFunction === "function") {
 			app.post(`/api/${routeName}`, routeFunction);
 		}
 	});
-};
 
-const createRoutesArray = (api) => 
+
+function createRoutesArray(api) {
 	fs.readdirSync(api).reduce((acc, file) => {
 		const importedFile = require(process.cwd() + `/api/${file}`);
 
@@ -41,5 +40,5 @@ const createRoutesArray = (api) =>
 
 		return acc;
 	}, []);
-
+}
 module.exports = { logRoutes, createRoutes, createRoutesArray };
